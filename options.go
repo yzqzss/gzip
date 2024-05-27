@@ -2,6 +2,7 @@ package gzip
 
 import (
 	"compress/gzip"
+	"fmt"
 	"net/http"
 	"regexp"
 	"strings"
@@ -23,6 +24,8 @@ type Options struct {
 	ExcludedPaths        ExcludedPaths
 	ExcludedPathesRegexs ExcludedPathesRegexs
 	DecompressFn         func(c *gin.Context)
+	// disable compression,  only decompress incoming request
+	OnlyDecompress bool
 }
 
 type Option func(*Options)
@@ -48,6 +51,13 @@ func WithExcludedPathsRegexs(args []string) Option {
 func WithDecompressFn(decompressFn func(c *gin.Context)) Option {
 	return func(o *Options) {
 		o.DecompressFn = decompressFn
+	}
+}
+
+func WithOnlyDecompress(onlyDecompress bool) Option {
+	return func(o *Options) {
+		fmt.Println("OnlyDecompress: ", onlyDecompress)
+		o.OnlyDecompress = onlyDecompress
 	}
 }
 

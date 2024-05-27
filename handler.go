@@ -41,7 +41,7 @@ func (g *gzipHandler) Handle(c *gin.Context) {
 		fn(c)
 	}
 
-	if !g.shouldCompress(c.Request) {
+	if g.OnlyDecompress || !g.shouldCompress(c.Request) {
 		return
 	}
 
